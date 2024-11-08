@@ -29,4 +29,4 @@
 
 2. **Configure the Time for Data Push:**
 
-   The data push is configured to run daily at **10 a.m.** by default. You can modify this in `app.js` by adjusting the cron schedule.
+   The data push is configured to run daily at **10 a.m.** by default. You can modify this in `server.js` by adjusting the cron schedule.
