@@ -29,12 +29,42 @@ export const dataPushToSnowflake = async (transactionData, transactionLogData) =
       }
 
       console.log('Connection to Snowflake was successful.');
+      
+      // tracking both insert operations
+      let transactionInsertDone = false;
+      let logInsertDone = false;
 
+      //closing connection on completion
+      const checkCompletion = () => {
+        if (transactionInsertDone && logInsertDone) {
+          closeConnection(connection)
+            .then(() => resolve("All operations done successfully"))
+            .catch((error) => reject(error));
+        }
+      };
+
+      // insert into transaction table
       insertTransactionData(connection, transactionData)
-        .then(() => insertTransactionLogData(connection, transactionLogData))
-        .then(() => closeConnection(connection))
-        .then(() => resolve("All operation Done Successfully"))
-        .catch((error) => reject(error));
+        .then(() => {
+          transactionInsertDone = true;
+          checkCompletion();
+        })
+        .catch((error) => {
+          console.error("Error inserting into TRANSACTIONS:", error);
+          closeConnection(connection).then(() => reject(error));
+        });
+
+      // insert into transaction log table
+      insertTransactionLogData(connection, transactionLogData)
+        .then(() => {
+          logInsertDone = true;
+          checkCompletion();
+        })
+        .catch((error) => {
+          console.error("Error inserting into TRANSACTION_LOG:", error);
+          closeConnection(connection).then(() => reject(error));
+        });
     });
   });
 };
+;

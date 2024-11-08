@@ -7,6 +7,7 @@ import { generateData } from './dataGenerator.js';
 export const startCronJob = (scheduleTime) => {
   //console.log("hello")
   cron.schedule(scheduleTime, async () => {
+    //following console is just for testing purpose
     console.log("Cron Task is running");
 
     const { transactionData, transactionLogData } = generateData();
