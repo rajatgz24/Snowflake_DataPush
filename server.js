@@ -1,12 +1,12 @@
 // app.js
 import dotenv from 'dotenv';
-import { startCronJob } from './helper/cronJob.js';
+import { startCronJob,pushDataOnce } from './helper/cronJob.js';
+import { CHOOSE_SCHEDULE_TIME } from './helper/config.js'; 
 
 //for using .env file
 dotenv.config();
 
-//choose your time default 12:30 pm
-let chooseScheduleTime='30 12 * * *';
 
 //starting of the cron task
-startCronJob(chooseScheduleTime);
+//startCronJob(CHOOSE_SCHEDULE_TIME);
+pushDataOnce();
